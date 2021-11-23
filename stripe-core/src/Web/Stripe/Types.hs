@@ -130,12 +130,14 @@ instance FromJSON StatementDescription where
   parseJSON v = StatementDescription <$> parseJSON v
 
 ------------------------------------------------------------------------------
--- | `StatementDescriptionSuffix` to be added to a `PaymentIntent`
-newtype StatementDescriptionSuffix =
-  StatementDescriptionSuffix Text deriving (Read, Show, Eq, Ord, Data, Typeable)
+-- | `StatementDescriptor` to be added to a `PaymentIntent`
+newtype StatementDescriptor =
+  StatementDescriptor Text deriving (Read, Show, Eq, Ord, Data, FromJSON)
 
-instance FromJSON StatementDescriptionSuffix where
-  parseJSON v = StatementDescriptionSuffix <$> parseJSON v
+------------------------------------------------------------------------------
+-- | `StatementDescriptorSuffix` to be added to a `PaymentIntent`
+newtype StatementDescriptorSuffix =
+  StatementDescriptorSuffix Text deriving (Read, Show, Eq, Ord, Data, FromJSON)
 
 ------------------------------------------------------------------------------
 -- | `Charge` object in `Stripe` API
@@ -2066,39 +2068,39 @@ newtype PaymentIntentId =
 ------------------------------------------------------------------------------
 -- | `PaymentIntent` Object
 data PaymentIntent = PaymentIntent {
-      paymentIntentId                         :: PaymentIntentId
-    , paymentIntentAmount                     :: Int
-    , paymentIntentAmountCapturable           :: Maybe Int
-    , paymentIntentAmountReceived             :: Maybe Int
-    , paymentIntentApplication                :: Maybe (Expandable ApplicationId)
-    , paymentIntentApplicationFeeAmount       :: Maybe Int
-    , paymentIntentCanceledAt                 :: Maybe UTCTime
-    , paymentIntentCancellationReason         :: Maybe CancellationReason
-    , paymentIntentCaptureMethod              :: CaptureMethod
-    , paymentIntentCharges                    :: Maybe (StripeList Charge)
-    , paymentIntentClientSecret               :: Maybe (Text)
-    , paymentIntentConfirmationMethod         :: ConfirmationMethod
-    , paymentIntentCreated                    :: UTCTime
-    , paymentIntentCurrency                   :: Currency
-    , paymentIntentCustomer                   :: Maybe (Expandable CustomerId)
-    , paymentIntentInvoice                    :: Maybe (Expandable InvoiceId)
-    , paymentIntentLastPaymentError           :: Maybe TODO
-    , paymentIntentLiveMode                   :: Maybe Bool
-    , paymentIntentMetadata                   :: Maybe MetaData
-    , paymentIntentNextAction                 :: Maybe TODO
-    , paymentIntentOnBehalfOf                 :: Maybe (Expandable AccountId)
-    , paymentIntentPaymentMethod              :: Maybe TODO
-    , paymentIntentPaymentOptions             :: Maybe TODO
-    , paymentIntentPaymentMethodTypes         :: [Text]
-    , paymentIntentReceiptEmail               :: Maybe ReceiptEmail
-    , paymentIntentReview                     :: Maybe TODO
-    , paymentIntentSetupFutureUsage           :: Maybe PaymentIntentUsage
-    , paymentIntentShipping                   :: Maybe TODO
-    , paymentIntentStatementDescription       :: Maybe StatementDescription
-    , paymentIntentStatementDescriptionSuffix :: Maybe StatementDescriptionSuffix
-    , paymentIntentStatus                     :: IntentStatus
-    , paymentIntentTransferData               :: Maybe TODO
-    , paymentIntentTransferGroup              :: Maybe Text
+      paymentIntentId                        :: PaymentIntentId
+    , paymentIntentAmount                    :: Int
+    , paymentIntentAmountCapturable          :: Maybe Int
+    , paymentIntentAmountReceived            :: Maybe Int
+    , paymentIntentApplication               :: Maybe (Expandable ApplicationId)
+    , paymentIntentApplicationFeeAmount      :: Maybe Int
+    , paymentIntentCanceledAt                :: Maybe UTCTime
+    , paymentIntentCancellationReason        :: Maybe CancellationReason
+    , paymentIntentCaptureMethod             :: CaptureMethod
+    , paymentIntentCharges                   :: Maybe (StripeList Charge)
+    , paymentIntentClientSecret              :: Maybe (Text)
+    , paymentIntentConfirmationMethod        :: ConfirmationMethod
+    , paymentIntentCreated                   :: UTCTime
+    , paymentIntentCurrency                  :: Currency
+    , paymentIntentCustomer                  :: Maybe (Expandable CustomerId)
+    , paymentIntentInvoice                   :: Maybe (Expandable InvoiceId)
+    , paymentIntentLastPaymentError          :: Maybe TODO
+    , paymentIntentLiveMode                  :: Maybe Bool
+    , paymentIntentMetadata                  :: Maybe MetaData
+    , paymentIntentNextAction                :: Maybe TODO
+    , paymentIntentOnBehalfOf                :: Maybe (Expandable AccountId)
+    , paymentIntentPaymentMethod             :: Maybe TODO
+    , paymentIntentPaymentOptions            :: Maybe TODO
+    , paymentIntentPaymentMethodTypes        :: [Text]
+    , paymentIntentReceiptEmail              :: Maybe ReceiptEmail
+    , paymentIntentReview                    :: Maybe TODO
+    , paymentIntentSetupFutureUsage          :: Maybe PaymentIntentUsage
+    , paymentIntentShipping                  :: Maybe TODO
+    , paymentIntentStatementDescriptor       :: Maybe StatementDescriptor
+    , paymentIntentStatementDescriptorSuffix :: Maybe StatementDescriptorSuffix
+    , paymentIntentStatus                    :: IntentStatus
+    , paymentIntentTransferData              :: Maybe TODO
+    , paymentIntentTransferGroup             :: Maybe Text
     } deriving (Read, Show, Eq, Ord, Data, Typeable)
 
 ------------------------------------------------------------------------------
