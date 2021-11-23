@@ -58,7 +58,7 @@ import           Web.Stripe.Types           (Amount(..), Charge (..), CardId (..
                                              MetaData(..), PaymentIntent (..), PaymentMethodId (..), PaymentMethodTypes(..), PaymentMethodType(..),
                                              PaymentIntentId (..), OffSession(..), ReceiptEmail(..),
                                              PaymentIntentUsage(..), Usage (..), StartingAfter(..), ExpandParams(..),
-                                             StripeList (..), Token (..), StatementDescriptor(..), StatementDescriptorSuffix(..))
+                                             StripeList (..), Token (..), StatementDescription(..), StatementDescriptionSuffix(..))
 
 ------------------------------------------------------------------------------
 -- | create a `PaymentIntent`
@@ -86,8 +86,7 @@ instance StripeHasParam CreatePaymentIntent PaymentMethodId
 instance StripeHasParam CreatePaymentIntent Confirm
 instance StripeHasParam CreatePaymentIntent MetaData
 instance StripeHasParam CreatePaymentIntent OffSession
-instance StripeHasParam CreatePaymentIntent StatementDescriptor
-instance StripeHasParam CreatePaymentIntent StatementDescriptorSuffix
+instance StripeHasParam CreatePaymentIntent StatementDescriptionSuffix
 
 ------------------------------------------------------------------------------
 -- | Retrieve a `PaymentIntent` by `ChargeId` and `PaymentIntentId`
@@ -127,8 +126,8 @@ instance StripeHasParam UpdatePaymentIntent Description
 instance StripeHasParam UpdatePaymentIntent PaymentMethodTypes
 instance StripeHasParam UpdatePaymentIntent ReceiptEmail
 instance StripeHasParam UpdatePaymentIntent PaymentIntentUsage
-instance StripeHasParam UpdatePaymentIntent StatementDescriptor
-instance StripeHasParam UpdatePaymentIntent StatementDescriptorSuffix
+instance StripeHasParam UpdatePaymentIntent StatementDescription
+instance StripeHasParam UpdatePaymentIntent StatementDescriptionSuffix
 -- TODO shipping, statement descriptor, statement descriptor suffix
 
 confirmPaymentIntent
