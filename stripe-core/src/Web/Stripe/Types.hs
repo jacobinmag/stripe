@@ -2107,7 +2107,7 @@ data PaymentIntent = PaymentIntent {
     , paymentIntentMetadata                  :: Maybe MetaData
     , paymentIntentNextAction                :: Maybe TODO
     , paymentIntentOnBehalfOf                :: Maybe (Expandable AccountId)
-    , paymentIntentPaymentMethod             :: Maybe TODO
+    , paymentIntentPaymentMethod             :: Maybe (Expandable PaymentMethodId)
     , paymentIntentPaymentOptions            :: Maybe TODO
     , paymentIntentPaymentMethodTypes        :: [Text]
     , paymentIntentReceiptEmail              :: Maybe ReceiptEmail
@@ -2185,6 +2185,10 @@ newtype OffSession = OffSession Bool
 
 
 newtype Confirm = Confirm Bool
+  deriving (Read, Show, Eq, Ord, Data, Typeable)
+
+
+newtype ErrorOnRequiresAction = ErrorOnRequiresAction Bool
   deriving (Read, Show, Eq, Ord, Data, Typeable)
 
 

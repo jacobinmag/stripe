@@ -54,7 +54,7 @@ import           Web.Stripe.StripeRequest   (Method (GET, POST),
 import           Web.Stripe.Util            ((</>))
 import           Web.Stripe.Types           (Amount(..), Charge (..), CardId (..), ChargeId (..),
                                              Confirm(..), Currency(..), CustomerId(..),
-                                             Description(..), EndingBefore(..), Limit(..),
+                                             Description(..), EndingBefore(..), ErrorOnRequiresAction(..), Limit(..),
                                              MetaData(..), PaymentIntent (..), PaymentMethodId (..), PaymentMethodTypes(..), PaymentMethodType(..),
                                              PaymentIntentId (..), OffSession(..), ReceiptEmail(..),
                                              PaymentIntentUsage(..), Usage (..), StartingAfter(..), ExpandParams(..),
@@ -84,6 +84,7 @@ instance StripeHasParam CreatePaymentIntent PaymentMethodTypes
 instance StripeHasParam CreatePaymentIntent PaymentIntentUsage
 instance StripeHasParam CreatePaymentIntent PaymentMethodId
 instance StripeHasParam CreatePaymentIntent Confirm
+instance StripeHasParam CreatePaymentIntent ErrorOnRequiresAction
 instance StripeHasParam CreatePaymentIntent MetaData
 instance StripeHasParam CreatePaymentIntent OffSession
 instance StripeHasParam CreatePaymentIntent StatementDescriptor
@@ -143,6 +144,7 @@ confirmPaymentIntent
 
 data ConfirmPaymentIntent
 type instance StripeReturn ConfirmPaymentIntent = PaymentIntent
+instance StripeHasParam ConfirmPaymentIntent ErrorOnRequiresAction
 instance StripeHasParam ConfirmPaymentIntent MetaData
 instance StripeHasParam ConfirmPaymentIntent OffSession
 instance StripeHasParam ConfirmPaymentIntent PaymentMethodId
