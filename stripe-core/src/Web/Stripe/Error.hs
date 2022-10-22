@@ -20,6 +20,7 @@ import           Control.Monad       (mzero)
 import           Data.Aeson
 import           Data.Text           (Text)
 import           Data.Typeable
+import           Web.Stripe.Types    (PaymentIntent, PaymentMethod)
 
 ------------------------------------------------------------------------------
 -- | Error Codes for HTTP Responses
@@ -64,12 +65,14 @@ data StripeErrorCode =
 ------------------------------------------------------------------------------
 -- | Stripe Error
 data StripeError = StripeError {
-      errorType  :: StripeErrorType
-    , errorMsg   :: Text
-    , errorCode  :: Maybe StripeErrorCode
-    , errorParam :: Maybe Text
-    , errorHTTP  :: Maybe StripeErrorHTTPCode
-    , errorValue :: Maybe Value
+      errorType          :: StripeErrorType
+    , errorMsg           :: Text
+    , errorCode          :: Maybe StripeErrorCode
+    , errorParam         :: Maybe Text
+    , errorHTTP          :: Maybe StripeErrorHTTPCode
+    , errorValue         :: Maybe Value
+    , errorPaymentIntent :: Maybe PaymentIntent
+    , errorPaymentMethod :: Maybe PaymentMethod
     } deriving (Show, Typeable)
 
 instance Exception StripeError
@@ -105,11 +108,13 @@ toErrorCode _                      = UnknownError
 
 instance FromJSON StripeError where
     parseJSON (Object o) = do
-        e     <- o .: "error"
-        typ   <- toErrorType <$> e .: "type"
-        msg   <- e .: "message"
-        code  <- fmap toErrorCode <$> e .:? "code"
-        param <- e .:? "param"
-        value <- e .:? "value"
-        return $ StripeError typ msg code param Nothing value
+        e      <- o .: "error"
+        typ    <- toErrorType <$> e .: "type"
+        msg    <- e .: "message"
+        code   <- fmap toErrorCode <$> e .:? "code"
+        param  <- e .:? "param"
+        value  <- e .:? "value"
+        intent <- e .:? "payment_intent"
+        method <- e .:? "payment_method"
+        return $ StripeError typ msg code param Nothing value intent method
     parseJSON _ = mzero
