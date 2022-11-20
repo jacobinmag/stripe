@@ -2302,9 +2302,16 @@ instance FromJSON ConfirmationMethod where
     "manual" -> pure ConfirmationMethodManual
     _ -> fail $ "Unknown ConfirmationMethod: " <> T.unpack t
 
+-- Note: IntentStatusRequiresSourceAction and IntentStatusRequiresAction are one
+-- and the same. "requires_source_action" was changed to "requires_action" with
+-- version 2019-02-11 of the API. The same goes for IntentStatusRequiresSource
+-- and IntentStatusRequiresPaymentMethod, as "requires_source" was changed to
+-- "requires_payment_method"
+
 data IntentStatus
   = IntentStatusCanceled
   | IntentStatusProcessing
+  | IntentStatusRequiresSourceAction
   | IntentStatusRequiresAction
   | IntentStatusRequiresCapture
   | IntentStatusRequiresConfirmation
@@ -2317,11 +2324,12 @@ instance FromJSON IntentStatus where
   parseJSON = withText "IntentStatus" $ \t -> case t of
     "canceled" -> pure IntentStatusCanceled
     "processing" -> pure IntentStatusProcessing
+    "requires_source_action" -> pure IntentStatusRequiresSourceAction
     "requires_action" -> pure IntentStatusRequiresAction
     "requires_capture" -> pure IntentStatusRequiresCapture
     "requires_confirmation" -> pure IntentStatusRequiresConfirmation
-    "requires_payment_method" -> pure IntentStatusRequiresPaymentMethod
     "requires_source" -> pure IntentStatusRequiresSource
+    "requires_payment_method" -> pure IntentStatusRequiresPaymentMethod
     "succeeded" -> pure IntentStatusSucceeded
     _ -> fail $ "Unknown IntentStatus: " <> T.unpack t
 
