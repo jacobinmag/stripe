@@ -51,7 +51,7 @@ import           Web.Stripe.Types   (AccountBalance(..), AccountNumber(..),
                                      CustomerId(..), CustomerEmail(..), ClientReferenceId(..), CVC(..), Date(..),
                                      DefaultCard(..), Description(..),
                                      Duration(..), DurationInMonths(..),
-                                     Email(..), EndingBefore(..), EventId(..), EventType(..),
+                                     Email(..), EndingBefore(..), ErrorOnRequiresAction(..), EventId(..), EventType(..),
                                      Evidence(..), Expandable(..),
                                      ExpandParams(..), ExpMonth(..),
                                      ExpYear(..), Forgiven(..), Interval(..),
@@ -573,6 +573,10 @@ instance ToStripeParam TransactionType where
 instance ToStripeParam Confirm where
   toStripeParam (Confirm conf) =
     (("confirm", toBytestringLower conf) :)
+
+instance ToStripeParam ErrorOnRequiresAction where
+  toStripeParam (ErrorOnRequiresAction conf) =
+    (("error_on_requires_action", toBytestringLower conf) :)
 
 instance (ToStripeParam param) => ToStripeParam (StartingAfter param) where
   toStripeParam (StartingAfter param) =

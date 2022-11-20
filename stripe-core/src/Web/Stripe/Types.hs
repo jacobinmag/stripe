@@ -156,7 +156,7 @@ data Charge = Charge {
     , chargeAmount               :: Amount
     , chargeCurrency             :: Currency
     , chargeRefunded             :: Bool
-    , chargeCreditCard           :: Maybe Card
+    , chargeCreditCard           :: Maybe CardHash
     , chargeCaptured             :: Bool
     , chargeRefunds              :: StripeList Refund
     , chargeBalanceTransaction   :: Maybe (Expandable TransactionId)
@@ -185,7 +185,7 @@ instance FromJSON Charge where
                <*> (Amount <$> o .: "amount")
                <*> o .: "currency"
                <*> o .: "refunded"
-               <*> o .:? "card"
+               <*> (o .: "payment_method_details" >>= (.: "card"))
                <*> o .: "captured"
                <*> o .: "refunds"
                <*> o .:? "balance_transaction"
@@ -2107,7 +2107,7 @@ data PaymentIntent = PaymentIntent {
     , paymentIntentMetadata                  :: Maybe MetaData
     , paymentIntentNextAction                :: Maybe TODO
     , paymentIntentOnBehalfOf                :: Maybe (Expandable AccountId)
-    , paymentIntentPaymentMethod             :: Maybe TODO
+    , paymentIntentPaymentMethod             :: Maybe (Expandable PaymentMethodId)
     , paymentIntentPaymentOptions            :: Maybe TODO
     , paymentIntentPaymentMethodTypes        :: [Text]
     , paymentIntentReceiptEmail              :: Maybe ReceiptEmail
@@ -2185,6 +2185,10 @@ newtype OffSession = OffSession Bool
 
 
 newtype Confirm = Confirm Bool
+  deriving (Read, Show, Eq, Ord, Data, Typeable)
+
+
+newtype ErrorOnRequiresAction = ErrorOnRequiresAction Bool
   deriving (Read, Show, Eq, Ord, Data, Typeable)
 
 
