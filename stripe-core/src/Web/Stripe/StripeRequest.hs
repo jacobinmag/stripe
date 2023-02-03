@@ -43,6 +43,7 @@ import           Web.Stripe.Types   (AccountBalance(..), AccountNumber(..),
                                      ApplicationFeeAmount(..),
                                      ApplicationFeePercent(..),
                                      AtPeriodEnd(..),
+                                     AutomaticPaymentMethod(..),
                                      AvailableOn(..), BankAccountId(..),
                                      CardId(..), CardNumber(..), CardToken(..),
                                      Capture(..), ChargeId(..), Closed(..),
@@ -481,35 +482,79 @@ instance ToStripeParam PaymentMethodId where
   toStripeParam (PaymentMethodId pid) =
     (("payment_method", Text.encodeUtf8 pid) :)
 
+instance ToStripeParam AutomaticPaymentMethod where
+  toStripeParam (AutomaticPaymentMethod enabled) =
+    (("automatic_payment_methods[enabled]", if enabled then "true" else "false") :)
+
 instance ToStripeParam PaymentMethodType where
   toStripeParam pmt =
     let typ = case pmt of
-                PaymentMethodTypeCard -> "card"
-                PaymentMethodTypeCardPresent -> "card_present"
-                PaymentMethodTypeIdeal -> "ideal"
-                PaymentMethodTypeFPX -> "fpx"
+                PaymentMethodTypeAcssDebit -> "acss_debit"
+                PaymentMethodTypeAffirm -> "affirm"
+                PaymentMethodTypeAfterpayClearpay -> "afterpay_clearpay"
+                PaymentMethodTypeAlipay -> "alipay"
+                PaymentMethodTypeAuBecsDebit -> "au_becs_debit"
                 PaymentMethodTypeBacsDebit -> "bacs_debit"
                 PaymentMethodTypeBancontact -> "bancontact"
-                PaymentMethodTypeGiropay -> "giropay"
-                PaymentMethodTypeP24 -> "p24"
+                PaymentMethodTypeBlik -> "blik"
+                PaymentMethodTypeBoleto -> "boleto"
+                PaymentMethodTypeCard -> "card"
+                PaymentMethodTypeCardPresent -> "card_present"
+                PaymentMethodTypeCustomerBalance -> "customer_balance"
                 PaymentMethodTypeEPS -> "eps"
+                PaymentMethodTypeFPX -> "fpx"
+                PaymentMethodTypeGiropay -> "giropay"
+                PaymentMethodTypeGrabpay -> "grabpay"
+                PaymentMethodTypeIdeal -> "ideal"
+                PaymentMethodTypeInteracPresent -> "interac_present"
+                PaymentMethodTypeKlarna -> "klarna"
+                PaymentMethodTypeKonbini -> "konbini"
+                PaymentMethodTypeLink -> "link"
+                PaymentMethodTypeOxxo -> "oxxo"
+                PaymentMethodTypeP24 -> "p24"
+                PaymentMethodTypePaynow -> "paynow"
+                PaymentMethodTypePix -> "pix"
+                PaymentMethodTypePromptPay -> "promptpay"
                 PaymentMethodTypeSepaDebit -> "sepa_debit"
+                PaymentMethodTypeSofort -> "sofort"
+                PaymentMethodTypeUsBankAccount -> "us_bank_account"
+                PaymentMethodTypeWechatPay -> "wechat_pay"
     in (("type", Text.encodeUtf8 typ) :)
 
 
 instance ToStripeParam PaymentMethodTypes where
   toStripeParam (PaymentMethodTypes pmts) =
     let t pmt = case pmt of
-            PaymentMethodTypeCard -> "card"
-            PaymentMethodTypeCardPresent -> "card_present"
-            PaymentMethodTypeIdeal -> "ideal"
-            PaymentMethodTypeFPX -> "fpx"
-            PaymentMethodTypeBacsDebit -> "bacs_debit"
-            PaymentMethodTypeBancontact -> "bancontact"
-            PaymentMethodTypeGiropay -> "giropay"
-            PaymentMethodTypeP24 -> "p24"
-            PaymentMethodTypeEPS -> "eps"
-            PaymentMethodTypeSepaDebit -> "sepa_debit"
+                  PaymentMethodTypeAcssDebit -> "acss_debit"
+                  PaymentMethodTypeAffirm -> "affirm"
+                  PaymentMethodTypeAfterpayClearpay -> "afterpay_clearpay"
+                  PaymentMethodTypeAlipay -> "alipay"
+                  PaymentMethodTypeAuBecsDebit -> "au_becs_debit"
+                  PaymentMethodTypeBacsDebit -> "bacs_debit"
+                  PaymentMethodTypeBancontact -> "bancontact"
+                  PaymentMethodTypeBlik -> "blik"
+                  PaymentMethodTypeBoleto -> "boleto"
+                  PaymentMethodTypeCard -> "card"
+                  PaymentMethodTypeCardPresent -> "card_present"
+                  PaymentMethodTypeCustomerBalance -> "customer_balance"
+                  PaymentMethodTypeEPS -> "eps"
+                  PaymentMethodTypeFPX -> "fpx"
+                  PaymentMethodTypeGiropay -> "giropay"
+                  PaymentMethodTypeGrabpay -> "grabpay"
+                  PaymentMethodTypeIdeal -> "ideal"
+                  PaymentMethodTypeInteracPresent -> "interac_present"
+                  PaymentMethodTypeKlarna -> "klarna"
+                  PaymentMethodTypeKonbini -> "konbini"
+                  PaymentMethodTypeLink -> "link"
+                  PaymentMethodTypeOxxo -> "oxxo"
+                  PaymentMethodTypeP24 -> "p24"
+                  PaymentMethodTypePaynow -> "paynow"
+                  PaymentMethodTypePix -> "pix"
+                  PaymentMethodTypePromptPay -> "promptpay"
+                  PaymentMethodTypeSepaDebit -> "sepa_debit"
+                  PaymentMethodTypeSofort -> "sofort"
+                  PaymentMethodTypeUsBankAccount -> "us_bank_account"
+                  PaymentMethodTypeWechatPay -> "wechat_pay"
     in ((map (\pmt-> ("payment_method_types[]", t pmt)) pmts) ++)
 
 encodeListStripeParam :: ToStripeParam a => Text -> [a] -> ([(ByteString, ByteString)] -> [(ByteString, ByteString)])

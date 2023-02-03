@@ -2355,29 +2355,75 @@ data PaymentMethod = PaymentMethod {
     , paymentMethodType                      :: PaymentMethodType
     } deriving (Read, Show, Eq, Ord, Data, Typeable)
 
+data AutomaticPaymentMethod = AutomaticPaymentMethod {
+      automaticPaymentMethodEnabled :: Bool
+    } deriving (Read, Show, Eq, Ord, Data, Typeable)
+
 data PaymentMethodType
-  = PaymentMethodTypeCard
-  | PaymentMethodTypeCardPresent
-  | PaymentMethodTypeIdeal
-  | PaymentMethodTypeFPX
+  = PaymentMethodTypeAcssDebit
+  | PaymentMethodTypeAffirm
+  | PaymentMethodTypeAfterpayClearpay
+  | PaymentMethodTypeAlipay
+  | PaymentMethodTypeAuBecsDebit
   | PaymentMethodTypeBacsDebit
   | PaymentMethodTypeBancontact
-  | PaymentMethodTypeGiropay
-  | PaymentMethodTypeP24
+  | PaymentMethodTypeBlik
+  | PaymentMethodTypeBoleto
+  | PaymentMethodTypeCard
+  | PaymentMethodTypeCardPresent
+  | PaymentMethodTypeCustomerBalance
   | PaymentMethodTypeEPS
+  | PaymentMethodTypeFPX
+  | PaymentMethodTypeGiropay
+  | PaymentMethodTypeGrabpay
+  | PaymentMethodTypeIdeal
+  | PaymentMethodTypeInteracPresent
+  | PaymentMethodTypeKlarna
+  | PaymentMethodTypeKonbini
+  | PaymentMethodTypeLink
+  | PaymentMethodTypeOxxo
+  | PaymentMethodTypeP24
+  | PaymentMethodTypePaynow
+  | PaymentMethodTypePix
+  | PaymentMethodTypePromptPay
   | PaymentMethodTypeSepaDebit
+  | PaymentMethodTypeSofort
+  | PaymentMethodTypeUsBankAccount
+  | PaymentMethodTypeWechatPay
   deriving (Read, Show, Eq, Ord, Data, Typeable)
 
 instance FromJSON PaymentMethodType where
   parseJSON = withText "PaymentMethodType" $ \t -> case t of
-    "card" -> pure PaymentMethodTypeCard
-    "ideal" -> pure PaymentMethodTypeIdeal
-    "fpx" -> pure PaymentMethodTypeFPX
-    "bacs_debit" -> pure PaymentMethodTypeBacsDebit
-    "bancontact" -> pure PaymentMethodTypeBancontact
-    "giropay" -> pure PaymentMethodTypeGiropay
-    "p24" -> pure PaymentMethodTypeP24
-    "sepa_debit" -> pure PaymentMethodTypeSepaDebit
+    "acss_debit" -> return PaymentMethodTypeAcssDebit
+    "affirm" -> return PaymentMethodTypeAffirm
+    "afterpay_clearpay" -> return PaymentMethodTypeAfterpayClearpay
+    "alipay" -> return PaymentMethodTypeAlipay
+    "au_becs_debit" -> return PaymentMethodTypeAuBecsDebit
+    "bacs_debit" -> return PaymentMethodTypeBacsDebit
+    "bancontact" -> return PaymentMethodTypeBancontact
+    "blik" -> return PaymentMethodTypeBlik
+    "boleto" -> return PaymentMethodTypeBoleto
+    "card" -> return PaymentMethodTypeCard
+    "card_present" -> return PaymentMethodTypeCardPresent
+    "customer_balance" -> return PaymentMethodTypeCustomerBalance
+    "eps" -> return PaymentMethodTypeEPS
+    "fpx" -> return PaymentMethodTypeFPX
+    "giropay" -> return PaymentMethodTypeGiropay
+    "grabpay" -> return PaymentMethodTypeGrabpay
+    "ideal" -> return PaymentMethodTypeIdeal
+    "interac_present" -> return PaymentMethodTypeInteracPresent
+    "klarna" -> return PaymentMethodTypeKlarna
+    "konbini" -> return PaymentMethodTypeKonbini
+    "link" -> return PaymentMethodTypeLink
+    "oxxo" -> return PaymentMethodTypeOxxo
+    "p24" -> return PaymentMethodTypeP24
+    "paynow" -> return PaymentMethodTypePaynow
+    "pix" -> return PaymentMethodTypePix
+    "promptpay" -> return PaymentMethodTypePromptPay
+    "sepa_debit" -> return PaymentMethodTypeSepaDebit
+    "sofort" -> return PaymentMethodTypeSofort
+    "us_bank_account" -> return PaymentMethodTypeUsBankAccount
+    "wechat_pay" -> return PaymentMethodTypeWechatPay
     _ -> fail $ "Unknown PaymentMethodType: " <> T.unpack t
 
 
