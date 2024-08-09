@@ -185,7 +185,7 @@ instance FromJSON Charge where
                <*> (Amount <$> o .: "amount")
                <*> o .: "currency"
                <*> o .: "refunded"
-               <*> (o .: "payment_method_details" >>= (.: "card"))
+               <*> (o .: "payment_method_details" >>= (.:? "card"))
                <*> o .: "captured"
                <*> o .: "refunds"
                <*> o .:? "balance_transaction"
