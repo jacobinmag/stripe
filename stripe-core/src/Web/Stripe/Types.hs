@@ -2356,7 +2356,8 @@ data PaymentMethod = PaymentMethod {
     } deriving (Read, Show, Eq, Ord, Data, Typeable)
 
 data AutomaticPaymentMethod = AutomaticPaymentMethod {
-      automaticPaymentMethodEnabled :: Bool
+      automaticPaymentMethodEnabled        :: Bool
+    , automaticPaymentMethodAllowRedirects :: Bool
     } deriving (Read, Show, Eq, Ord, Data, Typeable)
 
 data PaymentMethodType

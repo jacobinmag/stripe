@@ -483,8 +483,10 @@ instance ToStripeParam PaymentMethodId where
     (("payment_method", Text.encodeUtf8 pid) :)
 
 instance ToStripeParam AutomaticPaymentMethod where
-  toStripeParam (AutomaticPaymentMethod enabled) =
-    (("automatic_payment_methods[enabled]", if enabled then "true" else "false") :)
+  toStripeParam (AutomaticPaymentMethod enabled always) =
+    ([ ("automatic_payment_methods[enabled]", if enabled then "true" else "false")
+     , ("automatic_payment_methods[allow_redirects]", if always then "always" else "never")
+     ] ++)
 
 instance ToStripeParam PaymentMethodType where
   toStripeParam pmt =
