@@ -122,14 +122,14 @@ parseFail
     -> Maybe Value
     -> Either StripeError a
 parseFail errorMessage mval =
-      Left $ StripeError ParseFailure (T.pack errorMessage) Nothing Nothing Nothing mval
+      Left $ StripeError ParseFailure (T.pack errorMessage) Nothing Nothing Nothing mval Nothing Nothing
 
 ------------------------------------------------------------------------------
 -- | `StripeError` to return when we don't know what to do with the
 -- received HTTP status code.
 unknownCode :: Either StripeError a
 unknownCode =
-      Left $ StripeError UnknownErrorType mempty Nothing Nothing Nothing Nothing
+      Left $ StripeError UnknownErrorType mempty Nothing Nothing Nothing Nothing Nothing Nothing
 
 ------------------------------------------------------------------------------
 -- | set the `errorHTTP` field of the `StripeError` based on the HTTP

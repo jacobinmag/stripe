@@ -52,9 +52,9 @@ import           Web.Stripe.StripeRequest   (Method (GET, POST),
                                              StripeHasParam, StripeReturn,
                                              StripeRequest (..), toStripeParam, mkStripeRequest)
 import           Web.Stripe.Util            ((</>))
-import           Web.Stripe.Types           (Amount(..), Charge (..), CardId (..), ChargeId (..),
+import           Web.Stripe.Types           (Amount(..), AutomaticPaymentMethod(..), Charge (..), CardId (..), ChargeId (..),
                                              Confirm(..), Currency(..), CustomerId(..),
-                                             Description(..), EndingBefore(..), Limit(..),
+                                             Description(..), EndingBefore(..), ErrorOnRequiresAction(..), Limit(..),
                                              MetaData(..), PaymentIntent (..), PaymentMethodId (..), PaymentMethodTypes(..), PaymentMethodType(..),
                                              PaymentIntentId (..), OffSession(..), ReceiptEmail(..),
                                              PaymentIntentUsage(..), Usage (..), StartingAfter(..), ExpandParams(..),
@@ -80,10 +80,12 @@ type instance StripeReturn CreatePaymentIntent = PaymentIntent
 instance StripeHasParam CreatePaymentIntent CustomerId
 instance StripeHasParam CreatePaymentIntent Description
 instance StripeHasParam CreatePaymentIntent ReceiptEmail
+instance StripeHasParam CreatePaymentIntent AutomaticPaymentMethod
 instance StripeHasParam CreatePaymentIntent PaymentMethodTypes
 instance StripeHasParam CreatePaymentIntent PaymentIntentUsage
 instance StripeHasParam CreatePaymentIntent PaymentMethodId
 instance StripeHasParam CreatePaymentIntent Confirm
+instance StripeHasParam CreatePaymentIntent ErrorOnRequiresAction
 instance StripeHasParam CreatePaymentIntent MetaData
 instance StripeHasParam CreatePaymentIntent OffSession
 instance StripeHasParam CreatePaymentIntent StatementDescriptor
@@ -143,6 +145,7 @@ confirmPaymentIntent
 
 data ConfirmPaymentIntent
 type instance StripeReturn ConfirmPaymentIntent = PaymentIntent
+instance StripeHasParam ConfirmPaymentIntent ErrorOnRequiresAction
 instance StripeHasParam ConfirmPaymentIntent MetaData
 instance StripeHasParam ConfirmPaymentIntent OffSession
 instance StripeHasParam ConfirmPaymentIntent PaymentMethodId
